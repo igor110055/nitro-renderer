@@ -69,6 +69,7 @@ export class IncomingHeader
     public static MESSENGER_FRIENDS = 3130;
     public static MESSENGER_INIT = 1605;
     public static MESSENGER_INSTANCE_MESSAGE_ERROR = 3359;
+    public static MESSENGER_INVITE = 3870;
     public static MESSENGER_INVITE_ERROR = 462;
     public static MESSENGER_MESSAGE_ERROR = 892;
     public static MESSENGER_MINIMAIL_COUNT = 2803;
