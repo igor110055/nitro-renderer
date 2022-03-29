@@ -4,7 +4,7 @@ export class SendRoomInviteComposer implements IMessageComposer<any>
 {
     private _data: any;
 
-    constructor(message: string, userIds: number[])
+    constructor(userIds: number[], message: string)
     {
         this._data = [ userIds.length, ...userIds, message ];
     }
