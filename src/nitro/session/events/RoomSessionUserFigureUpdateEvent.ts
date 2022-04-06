@@ -1,11 +1,11 @@
-﻿import { IRoomSession } from '../IRoomSession';
+import { IRoomSession } from '../IRoomSession';
 import { RoomSessionEvent } from './RoomSessionEvent';
 
 export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
 {
     public static USER_FIGURE: string = 'RSUBE_FIGURE';
 
-     private _roomIndex: number = 0;
+    private _roomIndex: number = 0;
     private _userId: number = 0;
     private _figure: string = '';
     private _gender: string = '';
@@ -13,7 +13,7 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
     private _achievementScore: number;
     private _banner: string = '';
 
-    constructor(session: IRoomSession, roomIndex: number, userId: number, figure: string, gender: string, customInfo: string, achievementScore: number, banner: string)
+    constructor(session: IRoomSession, userId: number, figure: string, gender: string, customInfo: string, achievementScore: number, banner: string)
     {
         super(RoomSessionUserFigureUpdateEvent.USER_FIGURE, session);
 
