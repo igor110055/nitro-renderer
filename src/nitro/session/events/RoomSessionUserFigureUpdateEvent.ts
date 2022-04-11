@@ -12,8 +12,9 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
     private _customInfo: string = '';
     private _achievementScore: number;
     private _banner: string = '';
+  
+     constructor(session: IRoomSession, userId: number, figure: string, gender: string, customInfo: string, achievementScore: number, banner: string)
 
-    constructor(session: IRoomSession, userId: number, figure: string, gender: string, customInfo: string, achievementScore: number, banner: string)
     {
         super(RoomSessionUserFigureUpdateEvent.USER_FIGURE, session);
 

@@ -1,12 +1,13 @@
-import { Resource, Texture } from '@pixi/core';
+import { BaseTexture, Resource, Texture } from '@pixi/core';
 import { Loader, LoaderResource } from '@pixi/loaders';
 import { Spritesheet } from '@pixi/spritesheet';
-import { IGraphicAsset } from '../../room';
+import { IGraphicAsset } from '../../room/object/visualization/utils';
 import { GraphicAssetCollection } from '../../room/object/visualization/utils/GraphicAssetCollection';
 import { IGraphicAssetCollection } from '../../room/object/visualization/utils/IGraphicAssetCollection';
 import { Disposable } from '../common/disposable/Disposable';
 import { INitroLogger } from '../common/logger/INitroLogger';
 import { NitroLogger } from '../common/logger/NitroLogger';
+import { ArrayBufferToBase64 } from '../utils';
 import { IAssetManager } from './IAssetManager';
 import { IAssetData } from './interfaces';
 import { NitroBundle } from './NitroBundle';
@@ -94,157 +95,154 @@ export class AssetManager extends Disposable implements IAssetManager
         return collection;
     }
 
-    public downloadAsset(assetUrl: string, cb: Function): boolean
+    public downloadAsset(assetUrl: string, cb: (status: boolean) => void): void
     {
-        return this.downloadAssets([ assetUrl ], cb);
+        this.downloadAssets([ assetUrl ], cb);
     }
 
-    public downloadAssets(assetUrls: string[], cb: Function): boolean
+    public downloadAssets(assetUrls: string[], cb: (status: boolean) => void): void
     {
         if(!assetUrls || !assetUrls.length)
         {
             cb(true);
 
-            return true;
+            return;
         }
 
-        const totalToDownload = assetUrls.length;
+        const loader = new Loader();
 
-        let totalDownloaded = 0;
-
-        const onDownloaded = (loader: Loader, resource: LoaderResource, flag: boolean) =>
+        for(const url of assetUrls)
         {
-            if(loader) loader.destroy();
+            if(!url) continue;
 
-            if(!flag)
+            loader
+                .add({
+                    url,
+                    crossOrigin: 'anonymous',
+                    loadType: LoaderResource.LOAD_TYPE.XHR,
+                    xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER
+                });
+        }
+
+        let remaining = assetUrls.length;
+
+        const onDownloaded = (status: boolean, url: string) =>
+        {
+            if(!status)
             {
-                this._logger.error('Failed to download asset: ' + resource.url);
+                this._logger.error('Failed to download asset: ' + url);
+
+                loader.destroy();
 
                 cb(false);
 
                 return;
             }
 
-            totalDownloaded++;
+            remaining--;
 
-            if(totalDownloaded === totalToDownload) cb(true);
-        };
-
-        for(const url of assetUrls)
-        {
-            if(!url) continue;
-
-            const loader = new Loader();
-
-            loader
-                .add({
-                    url,
-                    crossOrigin: 'anonymous',
-                    xhrType: url.endsWith('.nitro') ? LoaderResource.XHR_RESPONSE_TYPE.BUFFER : LoaderResource.XHR_RESPONSE_TYPE.JSON
-                })
-                .use((resource: LoaderResource, next: Function) =>
-                {
-                    this.assetLoader(loader, resource, onDownloaded);
-
-                    next();
-                })
-                .load();
-        }
-
-        return true;
-    }
-
-    private assetLoader(loader: Loader, resource: LoaderResource, onDownloaded: Function): void
-    {
-        if(!resource || resource.error)
-        {
-            if(resource && resource.texture) resource.texture.destroy(true);
-
-            onDownloaded(loader, resource, false);
-
-            return;
-        }
-
-        if(resource.extension === 'nitro')
-        {
-            const nitroBundle = new NitroBundle(resource.data);
-            const assetData = (nitroBundle.jsonFile as IAssetData);
-
-            if(!assetData)
+            if(!remaining)
             {
-                onDownloaded(loader, resource, false);
+                loader.destroy();
+
+                cb(true);
 
                 return;
             }
+        };
 
-            if(assetData.spritesheet && Object.keys(assetData.spritesheet).length)
+        loader.load((loader, resources) =>
+        {
+            for(const key in resources)
             {
-                const baseTexture = nitroBundle.baseTexture;
+                const resource = resources[key];
 
-                if(!baseTexture)
+                if(!resource || resource.error || !resource.xhr)
                 {
-                    onDownloaded(loader, resource, false);
+                    onDownloaded(false, resource.url);
 
                     return;
                 }
 
-                if(baseTexture.valid)
+                const resourceType = (resource.xhr.getResponseHeader('Content-Type') || 'application/octet-stream');
+
+                if(resourceType === 'application/octet-stream')
                 {
-                    const spritesheet = new Spritesheet(baseTexture, assetData.spritesheet);
+                    const nitroBundle = new NitroBundle(resource.data);
 
-                    spritesheet.parse(() =>
+                    this.processAsset(nitroBundle.baseTexture, (nitroBundle.jsonFile as IAssetData), status =>
                     {
-                        this.createCollection(assetData, spritesheet);
-
-                        onDownloaded(loader, resource, true);
+                        onDownloaded(status, resource.url);
                     });
+
+                    continue;
                 }
-                else
+
+                if((resourceType === 'image/png') || (resourceType === 'image/gif'))
                 {
-                    baseTexture.once('loaded', () =>
+                    const base64 = ArrayBufferToBase64(resource.data);
+                    const baseTexture = new BaseTexture(`data:${ resourceType };base64,${ base64 }`);
+
+                    if(baseTexture.valid)
                     {
-                        baseTexture.removeAllListeners();
+                        const texture = new Texture(baseTexture);
 
-                        const spritesheet = new Spritesheet(baseTexture, assetData.spritesheet);
+                        this.setTexture(resource.name, texture);
 
-                        spritesheet.parse(() =>
+                        onDownloaded(true, resource.url);
+                    }
+                    else
+                    {
+                        baseTexture.once('update', () =>
                         {
-                            this.createCollection(assetData, spritesheet);
+                            const texture = new Texture(baseTexture);
 
-                            onDownloaded(loader, resource, true);
+                            this.setTexture(resource.name, texture);
+
+                            onDownloaded(true, resource.url);
                         });
-                    });
+                    }
 
-                    baseTexture.once('error', () =>
-                    {
-                        baseTexture.removeAllListeners();
-
-                        onDownloaded(loader, resource, false);
-                    });
+                    continue;
                 }
 
-                return;
+                onDownloaded(false, resource.url);
             }
+        });
+    }
 
-            this.createCollection(assetData, null);
+    private processAsset(baseTexture: BaseTexture, data: IAssetData, onDownloaded: (status: boolean) => void): void
+    {
+        const spritesheetData = data.spritesheet;
 
-            onDownloaded(loader, resource, true);
-        }
-
-        else if(resource.type === LoaderResource.TYPE.IMAGE)
+        if(!baseTexture || !spritesheetData || !Object.keys(spritesheetData).length)
         {
-            if(resource.texture.valid)
-            {
-                this.setTexture(resource.name, resource.texture);
+            this.createCollection(data, null);
 
-                onDownloaded(loader, resource, true);
-            }
-            else
-            {
-                onDownloaded(loader, resource, false);
-            }
+            onDownloaded(true);
 
             return;
+        }
+
+        const createAsset = () =>
+        {
+            const spritesheet = new Spritesheet(baseTexture, spritesheetData);
+
+            spritesheet.parse(() =>
+            {
+                this.createCollection(data, spritesheet);
+
+                onDownloaded(true);
+            });
+        };
+
+        if(baseTexture.valid)
+        {
+            createAsset();
+        }
+        else
+        {
+            baseTexture.once('update', () => createAsset());
         }
     }
 
