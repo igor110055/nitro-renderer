@@ -7,5 +7,5 @@ export class GraphicAssetGifCollection
         public textures: Texture<Resource>[],
         public durations: number[]
     )
-    {}
+    {} 
 }
