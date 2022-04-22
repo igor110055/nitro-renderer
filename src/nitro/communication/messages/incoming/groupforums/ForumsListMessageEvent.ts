@@ -14,3 +14,4 @@ export class ForumsListMessageEvent extends MessageEvent implements IMessageEven
         return this.parser as GetForumsListMessageParser;
     }
 }
+ 
