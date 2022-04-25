@@ -118,7 +118,7 @@ export class RoomUsersHandler extends BaseHandler
         session.userDataManager.updateMotto(parser.unitId, parser.motto);
         session.userDataManager.updateAchievementScore(parser.unitId, parser.achievementScore);
 
-        this.listener.events.dispatchEvent(new RoomSessionUserFigureUpdateEvent(session, parser.unitId, parser.figure, parser.gender, parser.motto, parser.achievementScore, parser.banner));
+        this.listener.events.dispatchEvent(new RoomSessionUserFigureUpdateEvent(session, parser.unitId, parser.figure, parser.gender, parser.motto, parser.achievementScore));
 
     }
 
