@@ -5,7 +5,6 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
 {
     public static USER_FIGURE: string = 'RSUBE_FIGURE';
 
-    private _roomIndex: number = 0;
     private _userId: number = 0;
     private _figure: string = '';
     private _gender: string = '';
@@ -24,10 +23,6 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
         this._customInfo = customInfo;
         this._achievementScore = achievementScore;
         this._banner = banner;
-    }
-  public get roomIndex(): number
-    {
-        return this._roomIndex;
     }
 
     public get userId(): number
