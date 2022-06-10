@@ -11,4 +11,4 @@ export class YouAreSpectatorMessageParser implements IMessageParser
     {
         return true;
     }
-} 
+}
