@@ -4,7 +4,6 @@ import { RoomDoorbellAcceptedEvent } from '../../communication/messages/incoming
 import { RoomDoorbellRejectedEvent } from '../../communication/messages/incoming/room/access/doorbell/RoomDoorbellRejectedEvent';
 import { RoomEnterEvent } from '../../communication/messages/incoming/room/access/RoomEnterEvent';
 import { RoomReadyMessageEvent } from '../../communication/messages/incoming/room/mapping/RoomReadyMessageEvent';
-import { YouAreSpectatorMessageEvent } from '../../communication/messages/incoming/room/session/YouAreSpectatorMessageEvent';
 import { GoToFlatMessageComposer } from '../../communication/messages/outgoing/room/session/GoToFlatMessageComposer';
 import { RoomSessionDoorbellEvent } from '../events/RoomSessionDoorbellEvent';
 import { IRoomHandlerListener } from '../IRoomHandlerListener';
