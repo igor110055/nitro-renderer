@@ -10,5 +10,5 @@ export class YouAreSpectatorMessageParser implements IMessageParser
     public parse(wrapper: IMessageDataWrapper): boolean
     {
         return true;
-    }
+    } 
 }
