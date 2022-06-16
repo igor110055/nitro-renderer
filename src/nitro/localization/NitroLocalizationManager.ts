@@ -1,4 +1,4 @@
-﻿﻿import { NitroManager } from '../../core/common/NitroManager';
+﻿import { NitroManager } from '../../core/common/NitroManager';
 import { INitroCommunicationManager } from '../communication/INitroCommunicationManager';
 import { BadgePointLimitsEvent } from '../communication/messages/incoming/inventory/badges/BadgePointLimitsEvent';
 import { Nitro } from '../Nitro';

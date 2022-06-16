@@ -133,7 +133,7 @@ export class NitroCommunicationDemo extends NitroManager
     {
         if(!event || !event.connection) return;
 
-        // FLOOD PING COMET this.sendPong(event.connection);
+        this.sendPong(event.connection);
     }
 
     private onAuthenticatedEvent(event: AuthenticatedEvent): void

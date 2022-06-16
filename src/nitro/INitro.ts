@@ -15,7 +15,6 @@ import { IRoomSessionManager } from './session/IRoomSessionManager';
 import { ISessionDataManager } from './session/ISessionDataManager';
 import { ISoundManager } from './sound/ISoundManager';
 
-
 export interface INitro extends Application
 {
     init(): void;

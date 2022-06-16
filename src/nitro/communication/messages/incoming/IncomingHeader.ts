@@ -49,7 +49,7 @@ export class IncomingHeader
     public static GROUP_FORUM_THREAD_MESSAGES = 509;
     public static GROUP_FORUM_UNREAD_COUNT = 2379;
     public static GROUP_FORUM_UPDATE_MESSAGE = 324;
-    public static GROUP_FORUM_UPDATE_THREAD = 2528
+    public static GROUP_FORUM_UPDATE_THREAD = 2528;
     public static GROUP_INFO = 1702;
     public static GROUP_LIST = 420;
     public static GROUP_MEMBER = 265;
