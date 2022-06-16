@@ -62,7 +62,6 @@ export class RoomUnitParser implements IMessageParser
 
                 user.figure = figure;
                 user.activityPoints = wrapper.readInt();
-                user.banner = wrapper.readString();
                 user.isModerator = wrapper.readBoolean();
             }
 

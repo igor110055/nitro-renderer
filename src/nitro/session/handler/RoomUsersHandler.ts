@@ -73,7 +73,6 @@ export class RoomUsersHandler extends BaseHandler
                 userData.custom = user.custom;
                 userData.activityPoints = user.activityPoints;
                 userData.figure = user.figure;
-                userData.banner = user.banner;
                 userData.type = user.userType;
                 userData.webID = user.webID;
                 userData.groupId = user.groupID;

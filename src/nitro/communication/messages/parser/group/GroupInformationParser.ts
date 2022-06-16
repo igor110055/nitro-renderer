@@ -6,7 +6,7 @@ export class GroupInformationParser implements IMessageParser
     private _type: number;
     private _title: string;
     private _description: string;
-    private _badgeCode: string;
+    private _badge: string;
     private _roomId: number;
     private _roomName: string;
     private _membershipType: number;
@@ -26,7 +26,7 @@ export class GroupInformationParser implements IMessageParser
         this._type = 0;
         this._title = null;
         this._description = null;
-        this._badgeCode = null;
+        this._badge = null;
         this._roomId = 0;
         this._roomName = null;
         this._membershipType = 0;
@@ -52,7 +52,7 @@ export class GroupInformationParser implements IMessageParser
         this._type = wrapper.readInt();
         this._title = wrapper.readString();
         this._description = wrapper.readString();
-        this._badgeCode = wrapper.readString();
+        this._badge = wrapper.readString();
         this._roomId = wrapper.readInt();
         this._roomName = wrapper.readString();
         this._membershipType = wrapper.readInt();
@@ -89,9 +89,9 @@ export class GroupInformationParser implements IMessageParser
         return this._description;
     }
 
-    public get badgeCode(): string
+    public get badge(): string
     {
-        return this._badgeCode;
+        return this._badge;
     }
 
     public get roomId(): number

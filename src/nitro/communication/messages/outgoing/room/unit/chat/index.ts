@@ -1,5 +1,4 @@
 export * from './RoomUnitChatComposer';
-export * from './RoomUnitChatGroupWhisperComposer';
 export * from './RoomUnitChatShoutComposer';
 export * from './RoomUnitChatStyleComposer';
 export * from './RoomUnitChatWhisperComposer';

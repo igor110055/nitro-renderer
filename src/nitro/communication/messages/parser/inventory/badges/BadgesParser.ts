@@ -1,4 +1,4 @@
-﻿﻿import { IMessageDataWrapper, IMessageParser } from '../../../../../../core';
+﻿import { IMessageDataWrapper, IMessageParser } from '../../../../../../core';
 import { AdvancedMap } from '../../../../../../core/utils/AdvancedMap';
 
 export class BadgesParser implements IMessageParser

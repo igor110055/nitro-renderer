@@ -210,7 +210,6 @@ export class FurnitureRoomBrandingLogic extends FurnitureLogic
                 .catch(error =>
                 {
                     this.processUpdateMessage(new ObjectAdUpdateMessage(ObjectAdUpdateMessage.IMAGE_LOADING_FAILED));
-
                 });
         }
         else

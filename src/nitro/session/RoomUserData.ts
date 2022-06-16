@@ -5,7 +5,6 @@ export class RoomUserData
     private _type: number = 0;
     private _sex: string = '';
     private _figure: string = '';
-    private _banner: string='';
     private _custom: string = '';
     private _activityPoints: number;
     private _webID: number = 0;
@@ -85,16 +84,6 @@ export class RoomUserData
         this._figure = k;
     }
 
-    
-    public get banner(): string
-    {
-        return this._banner;
-    }
-
-    public set banner(k: string)
-    {
-        this._banner = k;
-    }
     public get custom(): string
     {
         return this._custom;

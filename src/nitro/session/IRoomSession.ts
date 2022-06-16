@@ -18,7 +18,6 @@ export interface IRoomSession extends IDisposable
     sendChatTypingMessage(isTyping: boolean): void;
     sendMottoMessage(motto: string): void;
     sendDanceMessage(danceId: number): void;
-    sendGroupWhisperMessage(recipientName: string): void;
     sendExpressionMessage(expression: number): void;
     sendSignMessage(sign: number): void;
     sendPostureMessage(posture: number): void;
