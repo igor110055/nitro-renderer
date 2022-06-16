@@ -434,6 +434,7 @@ import { UpdateFloorPropertiesMessageComposer } from './messages/outgoing/room/l
 import { RedeemItemClothingComposer } from './messages/outgoing/room/RedeemItemClothingComposer';
 import { RoomCreateComposer } from './messages/outgoing/room/RoomCreateComposer';
 import { RoomUnitChatComposer } from './messages/outgoing/room/unit/chat/RoomUnitChatComposer';
+import { RoomUnitChatGroupWhisperComposer } from './messages/outgoing/room/unit/chat/RoomUnitChatGroupWhisperComposer';
 import { RoomUnitChatShoutComposer } from './messages/outgoing/room/unit/chat/RoomUnitChatShoutComposer';
 import { RoomUnitChatStyleComposer } from './messages/outgoing/room/unit/chat/RoomUnitChatStyleComposer';
 import { RoomUnitChatWhisperComposer } from './messages/outgoing/room/unit/chat/RoomUnitChatWhisperComposer';
@@ -1278,6 +1279,7 @@ export class NitroMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.UNIT_CHAT_SHOUT, RoomUnitChatShoutComposer);
         this._composers.set(OutgoingHeader.USER_SETTINGS_CHAT_STYLE, RoomUnitChatStyleComposer);
         this._composers.set(OutgoingHeader.UNIT_CHAT_WHISPER, RoomUnitChatWhisperComposer);
+        this._composers.set(OutgoingHeader.UNIT_CHAT_GROUP_WHISPER, RoomUnitChatGroupWhisperComposer);
         this._composers.set(OutgoingHeader.UNIT_TYPING, RoomUnitTypingStartComposer);
         this._composers.set(OutgoingHeader.UNIT_TYPING_STOP, RoomUnitTypingStopComposer);
 

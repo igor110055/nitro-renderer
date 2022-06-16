@@ -161,6 +161,7 @@ export class OutgoingHeader
     public static UNIT_CHAT = 1314;
     public static UNIT_CHAT_SHOUT = 2085;
     public static UNIT_CHAT_WHISPER = 1543;
+    public static UNIT_CHAT_GROUP_WHISPER = 1118;
     public static UNIT_DANCE = 2080;
     public static UNIT_DROP_HAND_ITEM = 2814;
     public static UNIT_GIVE_HANDITEM = 2941;
